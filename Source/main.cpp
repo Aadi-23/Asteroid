@@ -10,7 +10,7 @@ int main(void)
     bool death = false;
     
     screens sc = Start;
-    
+    Level level;
 
     InitWindow(screen_width, screen_height, "Asteroid");
 
@@ -39,7 +39,9 @@ int main(void)
             BeginDrawing();
             ClearBackground(BLACK);
             DrawText(TextFormat("Score:%i ",score), 100, 400, 50, WHITE);
-            DrawRectangle();
+
+            level.update();
+            DrawRectangle(level.Player.pos.x, level.Player.pos.y, level.Player.width, level.Player.height, GREEN);
             if (death == true)
             {
                 sc = GameOver;

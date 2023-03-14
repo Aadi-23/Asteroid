@@ -3,16 +3,18 @@
 
 int main(void)
 {    
-    enum screens { Start, Asteroid, GameOver };
+    enum screens { Start, Play, GameOver };
     const int screen_height = 800;
     const int screen_width = 1200;
     int score = 0;
     bool death = false;
-    
-    screens sc = Start;
     Level level;
 
+    screens sc = Start;
+
     InitWindow(screen_width, screen_height, "Asteroid");
+
+    SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
@@ -29,12 +31,12 @@ int main(void)
             DrawText("Press Any Key To Start", 250, 400, 50, WHITE);
             if (GetKeyPressed())
             {
-                sc = Asteroid;
+                sc = Play;
             }
 
             }
             break;
-        case Asteroid:
+        case Play:
         {
             BeginDrawing();
             ClearBackground(BLACK);
@@ -42,6 +44,7 @@ int main(void)
 
             level.update();
             DrawRectangle(level.Player.pos.x, level.Player.pos.y, level.Player.width, level.Player.height, GREEN);
+            DrawRectangle(level.Asteroid.pos.x, level.Asteroid.pos.y, level.Asteroid.width, level.Asteroid.height, DARKBLUE);
             if (death == true)
             {
                 sc = GameOver;

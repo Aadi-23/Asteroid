@@ -14,9 +14,12 @@ struct Entity
 class Level
 {
 public:
+    Entity Asteroid;
     Entity Player;
     Vector2 createmovement();
+    int timer = 60;
     void movement(Vector2 pos);
     void spawnship();
     void update();
+    void spawnrock();
 };

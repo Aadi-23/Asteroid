@@ -6,13 +6,21 @@ int main(void)
     enum screens { Start, Play, GameOver };
     const int screen_height = 800;
     const int screen_width = 1200;
+
+
+    InitWindow(screen_width, screen_height, "Asteroid");
+
+
     int score = 0;
     bool death = false;
     Level level;
 
+    ResourceManager::LoadResources();
+
     screens sc = Start;
 
-    InitWindow(screen_width, screen_height, "Asteroid");
+    level.spawnship();
+
 
     SetTargetFPS(60);
 
@@ -66,6 +74,8 @@ int main(void)
 
     }
     CloseWindow();
+
+    ResourceManager::UnloandResources();
 
     return 0;
 }

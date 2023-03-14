@@ -2,14 +2,22 @@
 #include "raymath.h"
 #include "myMath.h"
 #include <vector>
+#include "Resources.h"
+
+enum struct EntityKind
+{
+    SHIP,
+    ASTEROID,
+};
+
 
 struct Entity
 {
+    EntityKind et;
     float speed = 0.2;
     Vector2 dir{ 0,0 };
-    float width = 80;
-    float height = 60;
-    Vector2 pos{100, 500};
+    Vector2 size = { 0,0 };
+    Vector2 pos = {0,0};
 };
 
 class Level
@@ -18,7 +26,7 @@ class Level
 
 public:
   
-    Entity Player;
+   
     Vector2 createmovement();
     int timer = 60;
     void movement(Vector2 pos);

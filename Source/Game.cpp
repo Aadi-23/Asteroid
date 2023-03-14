@@ -21,11 +21,26 @@ void add_entity(const Entity entities)
 
 void Level::spawnrock()
 {
+	Entity Asteroid;
+
 	Asteroid.pos = { (float)GetRandomValue(-20, GetRenderWidth()), 220 };
 	Asteroid.dir = { (float)GetRandomValue(-2,2), (float)GetRandomValue(1,2) };
 	Asteroid.speed = GetRandomValue(1, 2);
 	Asteroid.height = 30;
 	Asteroid.width = 30;
+
+	all_entities.push_back(Asteroid);
+
+}
+
+void Level::render()
+{
+	DrawRectangle(Player.pos.x, Player.pos.y,Player.width,Player.height, GREEN);
+	
+	for (auto& e : all_entities)
+	{
+
+	}
 }
 
 void Level::update()

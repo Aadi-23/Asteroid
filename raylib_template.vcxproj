@@ -165,7 +165,7 @@
     <ClCompile Include="Source\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SoundsAndTextures.h" />
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="Source\Game.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

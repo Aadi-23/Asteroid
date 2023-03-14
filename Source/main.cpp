@@ -43,8 +43,8 @@ int main(void)
             DrawText(TextFormat("Score:%i ",score), 100, 400, 50, WHITE);
 
             level.update();
-            DrawRectangle(level.Player.pos.x, level.Player.pos.y, level.Player.width, level.Player.height, GREEN);
-            DrawRectangle(level.Asteroid.pos.x, level.Asteroid.pos.y, level.Asteroid.width, level.Asteroid.height, DARKBLUE);
+            level.render();
+           
             if (death == true)
             {
                 sc = GameOver;

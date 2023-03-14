@@ -1,6 +1,7 @@
 #include "raylib.h"
 #include "raymath.h"
 #include "myMath.h"
+#include <vector>
 
 struct Entity
 {
@@ -13,13 +14,17 @@ struct Entity
 
 class Level
 {
+    std::vector<Entity> all_entities;
+
 public:
-    Entity Asteroid;
+  
     Entity Player;
     Vector2 createmovement();
     int timer = 60;
     void movement(Vector2 pos);
     void spawnship();
-    void update();
     void spawnrock();
+
+    void render();
+    void update();
 };

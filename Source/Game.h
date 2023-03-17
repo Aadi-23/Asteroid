@@ -14,10 +14,11 @@ enum struct EntityKind
 struct Entity
 {
     EntityKind et;
-    float speed = 0.2;
     Vector2 dir{ 0,0 };
+    Vector2 speed{ 0,0 };
     Vector2 size = { 0,0 };
     Vector2 pos = {0,0};
+    float angle = 0.f;
 };
 
 class Level
@@ -27,9 +28,9 @@ class Level
 public:
   
    
-    Vector2 createmovement();
+   
     int timer = 60;
-    void movement(Vector2 pos);
+    void movement();
     void spawnship();
     void spawnrock();
 

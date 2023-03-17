@@ -3,6 +3,7 @@
 struct Textures
 {
 	Texture2D ship;
+	Texture2D rock;
 };
 
 struct Sounds

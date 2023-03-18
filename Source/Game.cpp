@@ -70,6 +70,18 @@ void Level::movement()
 			e.pos += e.dir * e.speed;
 		}
 		break;
+
+		case(EntityKind::BULLETS):
+		{
+			e.pos += e.dir * e.speed;
+            
+
+			if (e.pos.x < 0 || e.pos.x > GetRenderWidth() || e.pos.y < 0 || e.pos.y > GetRenderHeight())
+			{
+				// die
+			}
+		}
+		break;
 		}
 	}
 }
@@ -108,6 +120,24 @@ void Level::spawnrock()
 
 }
 
+void Level::Shoot()
+{
+	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+	{
+		Entity bullet;
+
+		bullet.pos = all_entities[0].pos;
+		bullet.dir = all_entities[0].speed;
+		bullet.speed = { 8,8 };
+		bullet.size = { 20,20 };
+		bullet.radius = 10;
+		bullet.angle = 0;
+		bullet.et = EntityKind::BULLETS;
+
+		all_entities.push_back(bullet);
+	}
+}
+
 void Level::render()
 {
 
@@ -135,10 +165,15 @@ void Level::render()
 			Rectangle rectdest = { e.pos.x,e.pos.y,e.size.x,e.size.y };
 
 
-			DrawTexturePro(ResourceManager::textures.rock, rectsrc, rectdest, Vector2(e.size.x / 2, e.size.y / 2), e.angle * GetTime(), WHITE);
+			DrawTexturePro(ResourceManager::textures.rock, rectsrc, rectdest, Vector2(e.size.x / 2, e.size.y / 2), (float)(e.angle * GetTime()), WHITE);
 			
 			}
 			break;
+		case(EntityKind::BULLETS):
+		{
+			DrawCircle(e.pos.x, e.pos.y, e.radius, GRAY);
+		}
+		break;
 		}
 
 	
@@ -148,10 +183,13 @@ void Level::render()
 void Level::update()
 {
 	timer--;
-	if (timer == 0)
+	if (timer == 0 && MaxAsteroids > 0)
 	{
 		timer = 60;
+		MaxAsteroids--;
 		spawnrock();
 	}
+
+	Shoot();
 	movement();
 }

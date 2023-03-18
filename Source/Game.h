@@ -34,12 +34,14 @@ class Level
 
 public:
 
+    int MaxAsteroids = 4;
    
    
     int timer = 60;
     void movement();
     void spawnship();
     void spawnrock();
+    void Shoot();
 
     void render();
     void update();

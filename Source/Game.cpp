@@ -14,27 +14,33 @@ void Level::movement()
 		{
 			if (IsKeyDown(KEY_A))
 			{
-				e.angle -= 80.f * GetFrameTime();
+				e.angle -= 5.f;
 			}
 			if (IsKeyDown(KEY_D))
 			{
-				e.angle += 80.f * GetFrameTime();
+				e.angle += 5.f;
 			}
 
 			if (IsKeyDown(KEY_W))
 			{
-				e.speed.x += sinf(e.angle) * 80.f * GetFrameTime();
-				e.speed.y += -cosf(e.angle) * 80.f * GetFrameTime();
+				if (e.acceleration < 4)
+					e.acceleration += 0.04f;
 			}
-			if (!IsKeyDown(KEY_W))
+			else
 			{
-				e.speed.x -= sinf(e.angle) * 50.f * GetFrameTime();
-				e.speed.y -= -cosf(e.angle) * 50.f * GetFrameTime();
+				if (e.acceleration > 0) 
+					e.acceleration -= 0.02f;
+				else if (e.acceleration < 0) 
+					e.acceleration = 0;
 			}
-			
 
-			e.pos.x += e.speed.x * GetFrameTime();
-			e.pos.y += e.speed.y * GetFrameTime();
+			e.speed.x = sinf(e.angle * DEG2RAD);
+			e.speed.y = -cosf(e.angle * DEG2RAD);
+
+			
+			// Updates rocket speed
+			e.pos += e.speed * e.acceleration;
+		
 
 
 
@@ -76,9 +82,11 @@ void Level::spawnship()
 	Player.size = { 60,60 };
 	Player.dir = { 0,0 };
 	Player.et = EntityKind::SHIP;
-	Player.speed = { 1,1 };
+	Player.speed = { 0,0 };
 	Player.pos = {(float)(GetRenderWidth()/2), (float)(GetRenderHeight() / 2)};
 	Player.angle = 0;
+	Player.acceleration = 0;
+
 
 	all_entities.push_back(Player);
 }
@@ -91,7 +99,8 @@ void Level::spawnrock()
 	Asteroid.pos = { (float)GetRandomValue(-20, GetRenderWidth()), 220 };
 	Asteroid.dir = { (float)GetRandomValue(-2,2), (float)GetRandomValue(1,2) };
 	Asteroid.speed = { 1,1 };
-	Asteroid.size = { 30,30 };
+	Asteroid.size = { 150,150 };
+	Asteroid.radius = 75;
 	Asteroid.angle = 90;
 	Asteroid.et = EntityKind::ASTEROID;
 
@@ -127,6 +136,7 @@ void Level::render()
 
 
 			DrawTexturePro(ResourceManager::textures.rock, rectsrc, rectdest, Vector2(e.size.x / 2, e.size.y / 2), e.angle * GetTime(), WHITE);
+			
 			}
 			break;
 		}

@@ -8,6 +8,9 @@ enum struct EntityKind
 {
     SHIP,
     ASTEROID,
+    BULLETS,
+    MEDIUM_ASTEROID,
+    SMALL_ASTEROID,
 };
 
 
@@ -17,8 +20,12 @@ struct Entity
     Vector2 dir{ 0,0 };
     Vector2 speed{ 0,0 };
     Vector2 size = { 0,0 };
+    float radius = 0;
+    float acceleration = 0;
     Vector2 pos = {0,0};
     float angle = 0.f;
+
+    bool dead = false;
 };
 
 class Level
@@ -26,7 +33,7 @@ class Level
     std::vector<Entity> all_entities;
 
 public:
-  
+
    
    
     int timer = 60;

@@ -11,8 +11,7 @@ int main(void)
     InitWindow(screen_width, screen_height, "Asteroid");
 
 
-  
-    bool death = false;
+ 
     Level level;
 
     ResourceManager::LoadResources();
@@ -53,7 +52,7 @@ int main(void)
             level.update();
             level.render();
            
-            if (death == true)
+            if (level.PlayerLives <= 0)
             {
                 sc = GameOver;
             }
@@ -63,8 +62,17 @@ int main(void)
         {
             BeginDrawing();
             ClearBackground(BLACK);
-            DrawText("GAME OVER", 500, 600, 100, RED);
-            DrawText(TextFormat("Your Score Was%i ", level.score), 500, 500, 50, GREEN);
+            DrawText("GAME OVER", 450, 300, 50, RED);
+            DrawText(TextFormat("Your Score Was : %i ", level.score), 400, 400, 40, GREEN);
+
+            DrawText("Press R to Start again", 400, 450, 40, YELLOW);
+
+            if (IsKeyPressed(KEY_R))
+            {
+                level.ResetLevel();
+
+                sc = Play;
+            }
         }
         break;
         default:

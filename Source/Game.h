@@ -37,20 +37,24 @@ public:
     int score = 0;
     int MaxAsteroids = 4;
     int PlayerLives = 3;
+
+
    
    
     int timer = 60;
 
     void spawnship();
-    void Shoot();
+    void spawnbullet(Vector2 pos, Vector2 dir);
     void spawnrock();
     void MediumAsteroid(Vector2 pos);
     void SmallAsteroid(Vector2 pos);
     
+    void Shoot();
     void Entitiesmovement();
     void EntitiesCollisions();
 
     void RemoveEntities();
+    void ResetLevel();
 
     void render();
     void update();

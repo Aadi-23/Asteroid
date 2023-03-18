@@ -23,7 +23,7 @@ void Level::spawnrock()
 {
 	Entity Asteroid;
 
-	Asteroid.pos = { (float)GetRandomValue(-20, GetRenderWidth()), 220 };
+	Asteroid.pos = { (float)GetRandomValue(-100, GetRenderWidth()), -100 };
 	Asteroid.dir = { (float)GetRandomValue(-1,1), (float)GetRandomValue(-1,1) };
 	Asteroid.speed = { 1,1 };
 	Asteroid.size = { 200,200 };
@@ -66,21 +66,32 @@ void Level::SmallAsteroid(Vector2 pos)
 
 }
 
+void Level::spawnbullet(Vector2 pos, Vector2 dir)
+{
+	Entity bullet;
+
+	bullet.pos = pos;
+	bullet.dir = dir;
+	bullet.speed = { 8,8 };
+	bullet.size = { 20,20 };
+	bullet.radius = bullet.size.x/2;
+	bullet.angle = 0;
+	bullet.et = EntityKind::BULLETS;
+
+	all_entities.push_back(bullet);
+}
+
 void Level::Shoot()
 {
 	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 	{
-		Entity bullet;
-
-		bullet.pos = all_entities[0].pos;
-		bullet.dir = all_entities[0].speed;
-		bullet.speed = { 8,8 };
-		bullet.size = { 20,20 };
-		bullet.radius = 10;
-		bullet.angle = 0;
-		bullet.et = EntityKind::BULLETS;
-
-		all_entities.push_back(bullet);
+		for (auto& e : all_entities)
+		{
+			if (e.et == EntityKind::SHIP)
+			{
+				spawnbullet(e.pos, e.speed);
+			}
+		}
 	}
 }
 
@@ -109,7 +120,7 @@ void Level::Entitiesmovement()
 			if (IsKeyDown(KEY_W))
 			{
 				if (e.acceleration < 4)
-					e.acceleration += 0.05f;
+					e.acceleration += 0.04f;
 			}
 			else
 			{
@@ -248,6 +259,9 @@ void Level::EntitiesCollisions()
 					if (CheckCollisionCircles(e.pos, e.radius, rock.pos, rock.radius))
 					{
 						// Player loses health
+						PlayerLives--;
+						rock.dead = true;
+						//e.dead = true;
 						
 					}
 				}
@@ -258,6 +272,8 @@ void Level::EntitiesCollisions()
 					if (CheckCollisionCircles(e.pos, e.radius, rock.pos, rock.radius))
 					{
 						// Player loses health
+						PlayerLives--;
+						rock.dead = true;
 					}
 				}
 				break;
@@ -267,6 +283,8 @@ void Level::EntitiesCollisions()
 					if (CheckCollisionCircles(e.pos, e.radius, rock.pos, rock.radius))
 					{
 						// Player loses health
+						PlayerLives--;
+						rock.dead = true;
 					}
 				}
 				break;
@@ -297,7 +315,7 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
-						MaxAsteroids += 1;
+						MaxAsteroids ++;
 						b.dead = true;
 						e.dead = true;
 						score += 50;
@@ -315,6 +333,7 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
+						MaxAsteroids++;
 						score += 30;
 						b.dead = true;
 						e.dead = true;
@@ -331,6 +350,7 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
+						MaxAsteroids++;
 						b.dead = true;
 						e.dead = true;
 						score += 15;
@@ -347,18 +367,36 @@ void Level::EntitiesCollisions()
 }
 
 
+void Level::RemoveEntities()
+{
+	auto last_entity = std::remove_if(all_entities.begin(), all_entities.end(), [](const Entity& e)->bool {return e.dead; });
+	all_entities.erase(last_entity, all_entities.end());
+}
 
 
+void Level::ResetLevel()
+{
+	all_entities.clear();
+	spawnship();
 
-
-
+	score = 0;
+	PlayerLives = 3;
+}
 
 void Level::render()
 {
 
+	// Score
+	DrawText(TextFormat("Score:%i ", score), 75, 50, 30, WHITE);
 	
-	DrawText(TextFormat("Score:%i ", score), 100, 50, 30, WHITE);
+	// Player lives render
 	
+	for (int i = 1; i < PlayerLives + 1; i++)
+	{
+		DrawCircle(75 * i, 120, 25, RED);
+	}
+	
+
 	for (auto& e : all_entities) 
 	{
 		switch (e.et)
@@ -415,16 +453,11 @@ void Level::render()
 
 
 
-void Level::RemoveEntities()
-{
-	auto last_entity = std::remove_if(all_entities.begin(), all_entities.end(), [](const Entity& e)->bool {return e.dead; });
-	all_entities.erase(last_entity, all_entities.end());
-}
 
 void Level::update()
 {
 	timer--;
-	if (timer == 0 && MaxAsteroids > 0)
+	if (timer <= 0 && MaxAsteroids > 0)
 	{
 		timer = 60;
 		MaxAsteroids--;

@@ -34,14 +34,23 @@ class Level
 
 public:
 
+    int score = 0;
     int MaxAsteroids = 4;
+    int PlayerLives = 3;
    
    
     int timer = 60;
-    void movement();
+
     void spawnship();
-    void spawnrock();
     void Shoot();
+    void spawnrock();
+    void MediumAsteroid(Vector2 pos);
+    void SmallAsteroid(Vector2 pos);
+    
+    void Entitiesmovement();
+    void EntitiesCollisions();
+
+    void RemoveEntities();
 
     void render();
     void update();

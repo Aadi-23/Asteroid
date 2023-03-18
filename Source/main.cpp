@@ -11,7 +11,7 @@ int main(void)
     InitWindow(screen_width, screen_height, "Asteroid");
 
 
-    int score = 0;
+  
     bool death = false;
     Level level;
 
@@ -48,7 +48,7 @@ int main(void)
         {
             BeginDrawing();
             ClearBackground(BLACK);
-            DrawText(TextFormat("Score:%i ",score), 100, 400, 50, WHITE);
+            
 
             level.update();
             level.render();
@@ -64,7 +64,7 @@ int main(void)
             BeginDrawing();
             ClearBackground(BLACK);
             DrawText("GAME OVER", 500, 600, 100, RED);
-            DrawText(TextFormat("Your Score Was%i ", score), 500, 500, 50, GREEN);
+            DrawText(TextFormat("Your Score Was%i ", level.score), 500, 500, 50, GREEN);
         }
         break;
         default:

@@ -35,6 +35,8 @@ int main(void)
             {
             BeginDrawing();
             ClearBackground(BLACK);
+
+            DrawText("ASTEROID", GetRenderWidth() / 3, GetRenderHeight() / 4, 60, YELLOW);
             DrawText("Press Any Key To Start", 250, 400, 50, WHITE);
             if (GetKeyPressed())
             {

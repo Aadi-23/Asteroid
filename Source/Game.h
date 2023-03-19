@@ -28,6 +28,12 @@ struct Entity
     bool dead = false;
 };
 
+struct Math                  // I made this struct where i store my Mathmeticle function So I do not need them to write everytime i need them.
+{
+    static float random_float_01();
+    static Vector2 random_direction();
+};
+
 class Level
 {
     std::vector<Entity> all_entities;
@@ -35,13 +41,14 @@ class Level
 public:
 
     int score = 0;
-    int MaxAsteroids = 4;
+    int MaxAsteroids = 3;
+    
     int PlayerLives = 3;
 
 
    
    
-    int timer = 60;
+    int timer = 90;
 
     void spawnship();
     void spawnbullet(Vector2 pos, Vector2 dir);

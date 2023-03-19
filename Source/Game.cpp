@@ -1,6 +1,17 @@
 #include "Game.h"
 
 
+float Math::random_float_01()                 // I took this function from galba which returns a random float for my random direction because raylib doesn't have.
+{
+	return rand() / static_cast<float>(RAND_MAX);
+}
+
+Vector2 Math::random_direction()             // 
+{
+	float angle = random_float_01() * 2 * PI;
+	return Vector2{ cosf(angle),sinf(angle) };
+}
+
 void Level::spawnship()
 {
 	Entity Player;
@@ -24,8 +35,8 @@ void Level::spawnrock()
 	Entity Asteroid;
 
 	Asteroid.pos = { (float)GetRandomValue(-100, GetRenderWidth()), -100 };
-	Asteroid.dir = { (float)GetRandomValue(-1,1), (float)GetRandomValue(-1,1) };
-	Asteroid.speed = { 1,1 };
+	Asteroid.dir = Math::random_direction();
+	Asteroid.speed = { (float)GetRandomValue(1,2), (float)GetRandomValue(1,2) };
 	Asteroid.size = { 200,200 };
 	Asteroid.radius = Asteroid.size.x/2;
 	Asteroid.angle = 90;
@@ -39,9 +50,9 @@ void Level::MediumAsteroid(Vector2 pos)
 {
 	Entity mediumasteroid;
 
-	mediumasteroid.pos = pos + Vector2{(float)GetRandomValue(60, -60), (float)GetRandomValue(-60, 60)};
-	mediumasteroid.dir = { (float)GetRandomValue(-2,2), (float)GetRandomValue(-2,2) };
-	mediumasteroid.speed = { 1,1 };
+	mediumasteroid.pos = pos;
+	mediumasteroid.dir = Math::random_direction();
+	mediumasteroid.speed = { (float)GetRandomValue(1,2), (float)GetRandomValue(1,2)};
 	mediumasteroid.size = { 120,120 };
 	mediumasteroid.radius = mediumasteroid.size.x/2;
 	mediumasteroid.angle = 90;
@@ -55,8 +66,8 @@ void Level::SmallAsteroid(Vector2 pos)
 	Entity smallasteroid;
 
 	smallasteroid.pos = pos + Vector2{ (float)GetRandomValue(40, -40), (float)GetRandomValue(-40, 40) };
-	smallasteroid.dir = { (float)GetRandomValue(-2,2), (float)GetRandomValue(-2,2) };
-	smallasteroid.speed = { 1,1 };
+	smallasteroid.dir = Math::random_direction();
+	smallasteroid.speed = {(float) GetRandomValue(1,2), (float) GetRandomValue(1,2)};
 	smallasteroid.size = { 50,50 };
 	smallasteroid.radius = smallasteroid.size.x/2;
 	smallasteroid.angle = 90;
@@ -119,13 +130,13 @@ void Level::Entitiesmovement()
 
 			if (IsKeyDown(KEY_W))
 			{
-				if (e.acceleration < 4)
+				if (e.acceleration < 5)
 					e.acceleration += 0.04f;
 			}
 			else
 			{
 				if (e.acceleration > 0)
-					e.acceleration -= 0.04f;
+					e.acceleration -= 0.02f;
 				else if (e.acceleration < 0)
 					e.acceleration = 0;
 			}
@@ -261,7 +272,15 @@ void Level::EntitiesCollisions()
 						// Player loses health
 						PlayerLives--;
 						rock.dead = true;
-						//e.dead = true;
+						e.dead = true;
+						MaxAsteroids++;
+
+						spawnship();
+
+						for (int i = 0; i < 2; i++)
+						{
+							MediumAsteroid(rock.pos);
+						}
 						
 					}
 				}
@@ -274,6 +293,14 @@ void Level::EntitiesCollisions()
 						// Player loses health
 						PlayerLives--;
 						rock.dead = true;
+						e.dead = true;
+
+						spawnship();
+
+						for (int i = 0; i < 2; i++)
+						{
+							SmallAsteroid(rock.pos);
+						}
 					}
 				}
 				break;
@@ -285,6 +312,9 @@ void Level::EntitiesCollisions()
 						// Player loses health
 						PlayerLives--;
 						rock.dead = true;
+						e.dead = true;
+
+						spawnship();
 					}
 				}
 				break;
@@ -315,10 +345,10 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
-						MaxAsteroids ++;
+						MaxAsteroids++;
+						score += 50;
 						b.dead = true;
 						e.dead = true;
-						score += 50;
 
 						for (int i = 0; i < 2; i++)
 						{
@@ -333,7 +363,7 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
-						MaxAsteroids++;
+						
 						score += 30;
 						b.dead = true;
 						e.dead = true;
@@ -350,7 +380,7 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
-						MaxAsteroids++;
+						
 						b.dead = true;
 						e.dead = true;
 						score += 15;
@@ -380,6 +410,7 @@ void Level::ResetLevel()
 	spawnship();
 
 	score = 0;
+	MaxAsteroids = 3;
 	PlayerLives = 3;
 }
 
@@ -459,7 +490,7 @@ void Level::update()
 	timer--;
 	if (timer <= 0 && MaxAsteroids > 0)
 	{
-		timer = 60;
+		timer = 90;
 		MaxAsteroids--;
 		spawnrock();
 	}

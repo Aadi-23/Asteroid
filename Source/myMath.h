@@ -10,13 +10,6 @@ struct Vector2i
 	int y = 0;
 };
 
-struct Math                  // I made this struct where i store my Mathmeticle function So I do not need them to write everytime i need them.
-{
-	static float random_float_01();
-	static Vector2 random_direction();
-
-	static bool Check_For_Collision(Vector2 FirstObjectPos, Vector2 SecondObjectPos, int Radius_1, int Radius_2);
-};
 
 constexpr inline Vector2 operator+=(Vector2& a, const Vector2& b)
 {

@@ -1,6 +1,8 @@
 #include "raylib.h"
 #include "Game.h"
 
+
+
 int main(void)
 {    
     enum screens { Start, Play, GameOver };
@@ -10,8 +12,9 @@ int main(void)
 
     InitWindow(screen_width, screen_height, "Asteroid");
 
-
+  
  
+
     Level level;
 
     ResourceManager::LoadResources();
@@ -36,12 +39,31 @@ int main(void)
             BeginDrawing();
             ClearBackground(BLACK);
 
-            DrawText("ASTEROID", GetRenderWidth() / 3, GetRenderHeight() / 4, 60, YELLOW);
-            DrawText("Press Any Key To Start", 250, 400, 50, WHITE);
-            if (GetKeyPressed())
+            DrawText("ASTEROID", GetRenderWidth() / 4, GetRenderHeight() / 4, 100, YELLOW);
+            
+
+            
+            Rectangle SourceRec = { 0,0, 150, 60 };
+            Rectangle StartButton = { (GetRenderWidth() / 2) - 150, (GetRenderHeight() / 2), 150, 60 };
+
+
+
+            if (CheckCollisionPointRec(GetMousePosition(), StartButton))
             {
-                sc = Play;
+                if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                {
+                    sc = Play;
+                }
+                
             }
+
+
+
+            DrawTextureRec(ResourceManager::textures.startbutton, SourceRec, Vector2{ StartButton.x, StartButton.y }, WHITE);
+
+            
+
+            
 
             }
             break;

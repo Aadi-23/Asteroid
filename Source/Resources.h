@@ -9,7 +9,11 @@ struct Textures
 
 struct Sounds
 {
-
+	Sound shot;
+	Sound background;
+	Sound thrust;
+	Sound rock_destruction;
+	Sound L;
 };
 
 struct ResourceManager

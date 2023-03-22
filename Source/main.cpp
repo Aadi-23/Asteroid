@@ -9,11 +9,7 @@ int main(void)
     const int screen_height = 800;
     const int screen_width = 1200;
 
-
     InitWindow(screen_width, screen_height, "Asteroid");
-
-  
- 
 
     Level level;
 
@@ -23,6 +19,7 @@ int main(void)
 
     level.spawnship();
 
+    InitAudioDevice();
 
     SetTargetFPS(60);
 

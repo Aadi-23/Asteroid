@@ -69,6 +69,9 @@ int main(void)
             BeginDrawing();
             ClearBackground(BLACK);
             
+            PlayMusicStream(ResourceManager::sounds.background);
+
+            UpdateMusicStream(ResourceManager::sounds.background);
 
             level.update();
             level.render();
@@ -76,6 +79,7 @@ int main(void)
             if (level.PlayerLives <= 0)
             {
                 sc = GameOver;
+                StopMusicStream(ResourceManager::sounds.background);
             }
         }
         break;

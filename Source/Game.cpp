@@ -332,7 +332,7 @@ void Level::EntitiesCollisions()
 
 		case(EntityKind::ASTEROID):
 		{
-
+			
 		}
 		break;
 
@@ -352,6 +352,7 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
+						PlaySoundMulti(ResourceManager::sounds.rock_destruction);
 						MaxAsteroids++;
 						score += 50;
 						b.dead = true;
@@ -370,7 +371,7 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
-						
+						PlaySoundMulti(ResourceManager::sounds.rock_destruction);
 						score += 30;
 						b.dead = true;
 						e.dead = true;
@@ -378,7 +379,6 @@ void Level::EntitiesCollisions()
 						{
 							SmallAsteroid(b.pos);
 						}
-
 					}
 				}
 				break;
@@ -387,7 +387,7 @@ void Level::EntitiesCollisions()
 				{
 					if (CheckCollisionCircles(e.pos, e.radius, b.pos, b.radius))
 					{
-						
+						PlaySoundMulti(ResourceManager::sounds.rock_destruction);
 						b.dead = true;
 						e.dead = true;
 						score += 15;

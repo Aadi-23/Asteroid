@@ -10,7 +10,7 @@ void ResourceManager::LoadResources()
 	textures.rock = LoadTexture("./Resources/Textures/Rock.png");
 	textures.startbutton = LoadTexture("./Resources/Textures/Start.png");
 
-	sounds.background = LoadSound("./Resources/Sounds/Background.wav");
+	sounds.background = LoadMusicStream("./Resources/Sounds/Background.wav");
 	sounds.shot = LoadSound("./Resources/Sounds/Shot.wav");
 	sounds.rock_destruction = LoadSound("./Resources/Sounds/RockDestruction.wav");
 	sounds.thrust = LoadSound("./Resources/Sounds/Thrusters.wav");
@@ -31,7 +31,7 @@ void ResourceManager::UnloandResources()
 	UnloadTexture(textures.rock);
 	UnloadTexture(textures.startbutton);
 
-	UnloadSound(sounds.background);
+	UnloadMusicStream(sounds.background);
 	UnloadSound(sounds.thrust);
 	UnloadSound(sounds.rock_destruction);
 	UnloadSound(sounds.shot);

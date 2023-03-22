@@ -83,17 +83,28 @@ int main(void)
         {
             BeginDrawing();
             ClearBackground(BLACK);
-            DrawText("GAME OVER", 450, 300, 50, RED);
-            DrawText(TextFormat("Your Score Was : %i ", level.score), 400, 400, 40, GREEN);
+            DrawText("GAME OVER", 450, 250, 50, RED);
+            DrawText(TextFormat("Your Score Was : %i ", level.score), 400, 320, 40, GREEN);
 
-            DrawText("Press R to Start again", 400, 450, 40, YELLOW);
+           
 
-            if (IsKeyPressed(KEY_R))
+
+            Vector2 retrysize = { 150,50 };
+            Rectangle rectsrc = { 0,0, retrysize.x,retrysize.y };
+            Rectangle rectdest = { GetScreenWidth()/2 - retrysize.x + 75,GetScreenHeight()/2,retrysize.x,retrysize.y};
+
+
+            DrawTextureRec(ResourceManager::textures.Goback, rectsrc, Vector2{ rectdest.x, rectdest.y }, WHITE);
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
             {
-                level.ResetLevel();
-
-                sc = Play;
+                if (CheckCollisionPointRec(GetMousePosition(), rectdest))
+                {
+                    level.ResetLevel();
+                    sc = Start; 
+                }
             }
+
+            
         }
         break;
         default:

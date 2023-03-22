@@ -419,12 +419,26 @@ void Level::render()
 
 	// Score
 	DrawText(TextFormat("Score:%i ", score), 75, 50, 30, WHITE);
+
+	Vector2 retrysize = { 60,60 };
+	Rectangle rectsrc = { 0,0, retrysize.x,retrysize.y };
+	Rectangle rectdest = { 1100,60,retrysize.x,retrysize.y };
+
+
+	DrawTextureRec(ResourceManager::textures.Retry, rectsrc, Vector2{ rectdest.x, rectdest.y }, WHITE);
+	if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+	{
+		if (CheckCollisionPointRec(GetMousePosition(), rectdest))
+		{
+			ResetLevel();
+		}
+	}
 	
 	// Player lives render
 	
 	for (int i = 1; i < PlayerLives + 1; i++)
 	{
-		DrawCircle(75 * i, 120, 25, RED);
+		DrawTexture(ResourceManager::textures.health, 50 * i, 100, WHITE);
 	}
 	
 
@@ -439,8 +453,13 @@ void Level::render()
 			Rectangle rectsrc = { 0,0, e.size.x, e.size.y };
 			Rectangle rectdest = { e.pos.x,e.pos.y,e.size.x,e.size.y };
 
+			if (IsKeyDown(KEY_W))
+			{
+				DrawTexturePro(ResourceManager::textures.ship, rectsrc, rectdest, Vector2(e.size.x / 2, e.size.y / 2), e.angle, WHITE);
+			}
+			else
 
-			DrawTexturePro(ResourceManager::textures.ship, rectsrc, rectdest, Vector2(e.size.x/2, e.size.y/2),e.angle, WHITE);
+			DrawTexturePro(ResourceManager::textures.ship0, rectsrc, rectdest, Vector2(e.size.x/2, e.size.y/2),e.angle, WHITE);
 
 		
 			}
@@ -460,19 +479,25 @@ void Level::render()
 
 		case(EntityKind::BULLETS):
 		{
-			DrawCircle(e.pos.x, e.pos.y, e.radius, GRAY);
+			DrawTexture(ResourceManager::textures.Bullet, e.pos.x, e.pos.y, WHITE);
 		}
 		break;
 
 		case(EntityKind::MEDIUM_ASTEROID):
 		{
-			DrawCircleV(e.pos, e.radius, BLUE);
+			Rectangle rectsrc = { 0,0, e.size.x, e.size.y };
+			Rectangle rectdest = { e.pos.x,e.pos.y,e.size.x,e.size.y };
+			DrawTexturePro(ResourceManager::textures.MediumRock, rectsrc, rectdest, Vector2(e.size.x / 2, e.size.y / 2), (float)(e.angle * GetTime()), WHITE);
+			
 		}
 		break;
 
 		case(EntityKind::SMALL_ASTEROID):
 		{
-			DrawCircleV(e.pos, e.radius, YELLOW);
+			Rectangle rectsrc = { 0,0, e.size.x, e.size.y };
+			Rectangle rectdest = { e.pos.x,e.pos.y,e.size.x,e.size.y };
+			DrawTexturePro(ResourceManager::textures.SmallRock, rectsrc, rectdest, Vector2(e.size.x / 2, e.size.y / 2), (float)(e.angle * GetTime()), WHITE);
+			
 		}
 		break;
 
@@ -487,6 +512,7 @@ void Level::render()
 
 void Level::update()
 {
+    
 	timer--;
 	if (timer <= 0 && MaxAsteroids > 0)
 	{

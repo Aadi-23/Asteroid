@@ -132,13 +132,20 @@ void Level::Entitiesmovement()
 				if (e.acceleration < 5)
 					e.acceleration += 0.04f;
 					PlaySoundMulti(ResourceManager::sounds.thrust);
+					
 			}
 			else
 			{
+				
 				if (e.acceleration > 0)
 					e.acceleration -= 0.02f;
 				else if (e.acceleration < 0)
 					e.acceleration = 0;
+			}
+
+			if (IsKeyReleased(KEY_W))
+			{
+				StopSoundMulti();
 			}
 
 			e.speed.x = sinf(e.angle * DEG2RAD);

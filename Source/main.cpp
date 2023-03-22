@@ -114,7 +114,7 @@ int main(void)
 
     }
     CloseWindow();
-
+    CloseAudioDevice();
     ResourceManager::UnloandResources();
 
     return 0;

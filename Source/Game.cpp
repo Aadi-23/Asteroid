@@ -112,7 +112,6 @@ void Level::Entitiesmovement()
 {
 
 
-
 	for (auto& e : all_entities)
 	{
 		switch (e.et)
@@ -132,6 +131,7 @@ void Level::Entitiesmovement()
 			{
 				if (e.acceleration < 5)
 					e.acceleration += 0.04f;
+					PlaySoundMulti(ResourceManager::sounds.thrust);
 			}
 			else
 			{

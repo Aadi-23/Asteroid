@@ -11,6 +11,8 @@ int main(void)
 
     InitWindow(screen_width, screen_height, "Asteroid");
 
+    InitAudioDevice();
+
     Level level;
 
     ResourceManager::LoadResources();
@@ -18,8 +20,6 @@ int main(void)
     screens sc = Start;
 
     level.spawnship();
-
-    InitAudioDevice();
 
     SetTargetFPS(60);
 

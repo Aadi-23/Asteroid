@@ -78,6 +78,7 @@ int main(void)
            
             if (level.PlayerLives <= 0)
             {
+                PlaySoundMulti(ResourceManager::sounds.L);
                 sc = GameOver;
                 StopMusicStream(ResourceManager::sounds.background);
             }
@@ -89,9 +90,6 @@ int main(void)
             ClearBackground(BLACK);
             DrawText("GAME OVER", 450, 250, 50, RED);
             DrawText(TextFormat("Your Score Was : %i ", level.score), 400, 320, 40, GREEN);
-
-           
-
 
             Vector2 retrysize = { 150,50 };
             Rectangle rectsrc = { 0,0, retrysize.x,retrysize.y };
